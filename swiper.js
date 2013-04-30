@@ -26,9 +26,9 @@ var Swiper = function(selector, options) {
 	
 	var el = selector,
 		parent = $(el),
-		container = $('.slides', el),
+		container = $('.container', el),
 		controls = $('.control', el),
-		frame = $('.slide', el);
+		frame = $('.page', el);
 	
 	/*------- Methods -------*/
 
