@@ -1,3 +1,13 @@
+/*
+swiper.js
+
+Full page slider for touch enabled devices. 
+
+Requires: jQuery or Zepto
+Author URL: https://github.com/dezignhero
+
+*/
+
 var Swiper = function(selector, options) {
 
 	/*------- Globals -------*/
