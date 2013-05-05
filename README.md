@@ -1,5 +1,4 @@
-swiper.js
-=========
+# swiper.js
 
 **Requires jQuery/Zepto**
 
@@ -7,7 +6,7 @@ Full page slider for touch enabled devices.  Currently supports WebKit devices o
 
 ## Introduction
 
-swiper.js takes a slider or a full page and allows it to be touch enabled.  This is perfect for full-page slideshows on mobile devices, and utilizes CSS3 properties for a smooth swipe.  The goal is a quick and smooth swiping experience on modern browsers.  I took advantage of -webkit-transition and -webkit-transform: translate3d() to achieve this.  Translate3d is graphically accelerated, which is why it is smoother than using absolute positioning and left/right properties.
+swiper.js takes a slider or a full page and allows it to be touch enabled.  This is perfect for full-page slideshows on mobile devices, and utilizes CSS3 properties for a smooth swipe.  The goal is a quick and smooth swiping experience on modern browsers.  I took advantage of -webkit-transition and -webkit-transform: translate3d(x,0,0) to achieve this.  Translate3d is graphically accelerated, which is why it is smoother than using absolute positioning and left/right properties.
 
 ## Features
 
@@ -33,6 +32,7 @@ Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider c
 **CSS**
 
 	<style>
+		html, body { width: 100%; height: 100%; }
 		#Pages { width: 100%; height: 100%; overflow: hidden; }
 			#Pages .container,
 			#Pages .page { float: left; width: 100%; height: 100%; background: #f3f3f3; }
@@ -42,7 +42,7 @@ Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider c
 **Javascript**
 
 	<script>
-		var s = new Swiper('#SliderId', options);
+		var s = new Swiper('#Pages', options);
 	</script>
 
 ## Settings
@@ -50,7 +50,7 @@ Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider c
 Below are the default values used in the settings of the framework which can be altered if desired.
 
 	<script>
-		var s = new Swiper('#SliderId', {
+		var s = new Swiper('#Pages', {
 			ease : 0.2,
 			sensitivity : 3,
 			preventAdvance : false,
