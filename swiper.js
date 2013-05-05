@@ -28,7 +28,7 @@ var Swiper = function(selector, options) {
 
 	// Settings
 	var settings = {
-		ease : 0.2,
+		ease : 0.3,
 		sensitivity : 3,
 		preventAdvance : false,
 		container : '.container',

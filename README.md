@@ -51,7 +51,7 @@ Below are the default values used in the settings of the framework which can be 
 
 	<script>
 		var s = new Swiper('#Pages', {
-			ease : 0.2,
+			ease : 0.3,
 			sensitivity : 3,
 			preventAdvance : false,
 			container : '.container',
@@ -60,7 +60,7 @@ Below are the default values used in the settings of the framework which can be 
 		});
 	</script>
 
-* ease - This is the webkit transition property, and the time it takes for the slide to ease-out when you let go.  Default is 0.2s.
+* ease - This is the webkit transition property, and the time it takes for the slide to ease-out when you let go.  Default is 0.3s.
 * sensitivity - How far across the screen a user needs to swipe before slider.js considers it the next slide.  Default is 3.  A value of 3 means that you have to pass 1/3 of the page width to be considered a full swipe.
 * preventAdvance - A function to disable and hide the prev/next controls. 
 * container - The element that contains all the slides.  Default markup expects '.container'.
