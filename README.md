@@ -21,6 +21,7 @@ swiper.js takes a slider or a full page and allows it to be touch enabled.  This
 Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider container to have certain CSS properties.
 
 **HTML**
+
 	<div id="Pages">
 		<ul class="container">
 			<li class="page">1</li>
@@ -30,6 +31,7 @@ Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider c
 	</div>
 
 **CSS**
+
 	<style>
 		#Pages { width: 100%; height: 100%; overflow: hidden; }
 			#Pages .container,
@@ -38,6 +40,7 @@ Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider c
 	</style>
 
 **Javascript**
+
 	<script>
 		var s = new Swiper('#SliderId', options);
 	</script>
