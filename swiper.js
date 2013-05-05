@@ -16,34 +16,39 @@ var Swiper = function(selector, options) {
 		At : 0
 	};
 
-	// Defaults
-	var defaults = {
-		easeDefault : 0.2,
-		preventAdvance : false
+	// Settings
+	var settings = {
+		ease : 0.2,
+		sensitivity : 4,
+		preventAdvance : false,
+		container : '.container',
+		controls : '.control',
+		page : '.page'
 	};
 
 	/*------- Initialization -------*/
 	
 	var el = selector,
-		parent = $(el),
-		container = $('.container', el),
-		controls = $('.control', el),
-		frame = $('.page', el);
+		$parent = $(el),
+		$container = $(settings.container, el),
+		$controls = $(settings.controls, el),
+		$frame = $(settings.page, el),
+		$prevCtrl, $nextCtrl;
 	
 	/*------- Methods -------*/
 
 	var init = function(options) {
-		// Options
-		defaults = $.extend(defaults, options || {});
+		// Update settings
+		settings = $.extend(settings, options || {});
 
-		// Setup
-		container.css({
-			'-webkit-transition' : 'all '+defaults.easeDefault+'s ease-out',
+		// Setup CSS
+		$container.css({
+			'-webkit-transition' : 'all '+settings.ease+'s ease-out',
 			'left' : 0
 		});
 
-		// Assign ids
-		frame.each(function(i){
+		// Assign Ids to frames
+		$frame.each(function(i){
 			$(this).attr('data-id', i);
 			numSlides++;
 		});
@@ -51,41 +56,49 @@ var Swiper = function(selector, options) {
 		// Set Dimensions
 		resize();
 
+		// Add initial class
+		$($frame.selector+'[data-id=0]', el).addClass('current');
+
+		// Monitoring controls if they exist
+		if ( $controls.length > 0 ) {
+			// Create handlers
+			$prevCtrl = $(settings.controls+'[data-action=prev]');
+			$nextCtrl = $(settings.controls+'[data-action=next]');
+
+			// Bind behavior
+			$controls.on('touchstart, click', function(){
+				var self = $(this),
+					action = self.attr('data-action');
+
+				// Ensure action defined
+				if ( typeof action == 'undefined' ) return;
+
+				if ( action == 'next' && currentSlide < numSlides - 1 ) {
+					goTo = currentSlide + 1;
+				} else if ( action == 'prev' && currentSlide > 0 ) {
+					goTo = currentSlide - 1;
+				}
+
+				// Move container
+				jumpTo(goTo);
+			});
+		}
+
 		// Display controls correctly
-		if(defaults.preventAdvance) {
+		if (settings.preventAdvance) {
 			disableSliding();
 		} else {
 			updateControls();
 		}
 
-		// Add initial class
-		$(frame.selector+'[data-id=0]', el).addClass('current');
-
-		// Behavior
-		controls.on('touchstart, click', function(){
-			if(!animating) {
-				animating = true;
-
-				var self = $(this);
-				if(self.hasClass('next') && (currentSlide < numSlides-1)) {
-					goTo = currentSlide + 1;
-				} else if (self.hasClass('prev') && currentSlide > 0) {
-					goTo = currentSlide - 1;
-				}
-
-				// Move container
-				jumpToSlide(goTo);
-			}
-		});
-
 		// Swiping
-		container[0].addEventListener('touchstart', function(e) { touchStart(e); }, false);
-		container[0].addEventListener('touchmove', function(e) { touchMove(e); }, false);
-		container[0].addEventListener('touchend', function(e) { touchEnd(e); }, false);
+		$container[0].addEventListener('touchstart', function(e) { touchStart(e); }, false);
+		$container[0].addEventListener('touchmove', function(e) { touchMove(e); }, false);
+		$container[0].addEventListener('touchend', function(e) { touchEnd(e); }, false);
 		// Desktop
-		container[0].addEventListener('mousedown', function(e) { touchStart(e); }, false);
-		container[0].addEventListener('mousemove', function(e) { if(e.which==1) { touchMove(e); } }, false);
-		container[0].addEventListener('mouseup', function(e) { touchEnd(e); }, false);
+		$container[0].addEventListener('mousedown', function(e) { touchStart(e); }, false);
+		$container[0].addEventListener('mousemove', function(e) { if (e.which==1) { touchMove(e); } }, false);
+		$container[0].addEventListener('mouseup', function(e) { touchEnd(e); }, false);
 
 		// Orientation Change
 		var supportsOrientationChange = "onorientationchange" in window,
@@ -93,20 +106,20 @@ var Swiper = function(selector, options) {
 
 		window.addEventListener(orientationEvent, function() {
 			resize(function(){
-				jumpToSlide(currentSlide);
+				jumpTo(currentSlide);
 			});
 		}, false);
 	},
 
 	resize = function(callback){
-		viewportWidth = parent.width();
+		viewportWidth = $parent.width();
 
 		// Apply new sizes
-		frame.width(viewportWidth);
-		container.width(viewportWidth*numSlides);
+		$frame.width(viewportWidth);
+		$container.width(viewportWidth*numSlides);
 
 		// callback
-		if(typeof callback != 'undefined') {
+		if (typeof callback != 'undefined') {
 			callback();
 		}
 	},
@@ -126,49 +139,49 @@ var Swiper = function(selector, options) {
 		// Nullify event
 		e.preventDefault();
 
-		if(!animating) {
-			var moved = swipe.endX - swipe.startX;
+		if ( animating ) return;
+		
+		var moved = swipe.endX - swipe.startX,
+			threshold = viewportWidth / settings.sensitivity;
 
-			// Figure out closest slide
-			if(moved > 0 && moved > viewportWidth/3) {
-				if(currentSlide > 0) {
-					goTo = currentSlide - 1;
-				}
-			} else if(moved < 0 && moved < -viewportWidth/3) {
-				if(currentSlide < numSlides-1) {
-					goTo = currentSlide + 1;
-				}
-			} else {
-				goTo = currentSlide;
+		goTo = currentSlide;
+
+		// Figure out closest slide
+		if ( Math.abs(moved) > threshold ) {
+			if ( moved > 0 && currentSlide > 0 ) {
+				goTo--;
+			} else if ( moved < 0 && currentSlide < numSlides-1 ) {
+				goTo++;
 			}
-			
-			// Jump to closest        
-			jumpToSlide(goTo, 0.15);
 		}
+		
+		// Jump to closest        
+		jumpTo(goTo);
 	},
 	
 	touchMove = function(e) {
-		if(swipe.started && !parent.hasClass('disabled')) {
-			var touchX = e.touches ? e.touches[0].pageX : e.pageX;
-			var touchY = e.touches ? e.touches[0].pageY : e.pageY;
-			var dX = touchX - swipe.startX;
-			var dY = touchY - swipe.startY;
+		if (swipe.started && !$parent.hasClass('disabled')) {
+			var touchX = e.touches ? e.touches[0].pageX : e.pageX,
+				touchY = e.touches ? e.touches[0].pageY : e.pageY,
+				dX = touchX - swipe.startX,
+				dY = touchY - swipe.startY;
+
 			swipe.endX = touchX;
 			
 			// Escape if motion wrong
-			if(Math.abs(dX) < Math.abs(dY)) return true;
+			if (Math.abs(dX) < Math.abs(dY)) return true;
 
 			e.preventDefault();
 
 			// Always run this so that hit the ends
-			animate(swipe.At+dX,'none');
+			animate(swipe.At+dX, false);
 		}
 	},
 
 	getPosition = function() {
 		// Get current point and Stay there
-		var style = document.defaultView.getComputedStyle(container[0], null);
-		var transform = new WebKitCSSMatrix(style.webkitTransform);
+		var style = document.defaultView.getComputedStyle($container[0], null),
+			transform = new WebKitCSSMatrix(style.webkitTransform);
 
 		// Return position based on direction
 		return transform.m41;
@@ -176,58 +189,56 @@ var Swiper = function(selector, options) {
 	
 	animate = function(scrollTo, ease) {
 		// Momentum Effect or Not
-		var transition = (ease!='none') ? 'all '+ease+'s ease-out' : 'none';
-		container[0].style.webkitTransition = transition;
-		container[0].style.webkitTransform = 'translate3d('+scrollTo+'px,0,0)';
+		$container[0].style.webkitTransition = ( ease ) ? 'all '+settings.ease+'s ease-out' : 'none';
+		$container[0].style.webkitTransform = 'translate3d('+scrollTo+'px,0,0)';
 
 		// Allow animating again
-		window.setTimeout(function(){
-			animating = false;
-		}, ease*1000);
+		if ( ease ) {
+			animating = true;
+			window.setTimeout(function(){
+				animating = false;
+			}, settings.ease*1000);
+		}
 	},
 
-	jumpToSlide = function(num, ease) {
+	jumpTo = function(num) {
 		// Keep within range
-		if(num >= 0 && num < numSlides) {
+		if ( num >= 0 && num < numSlides ) {
 
 			// Animate
-			var easeAmt = ease || defaults.easeDefault;
-			animating = true;
-			animate(-num*viewportWidth, easeAmt);
+			animate(-num*viewportWidth, true);
 
 			// If new slide
-			if(num != currentSlide) {
+			if ( num != currentSlide ) {
 				// Update current slide
 				currentSlide = num;
-				frame.removeClass('current');
-				$(frame.selector+'[data-id='+currentSlide+']').addClass('current');
+				$frame.removeClass('current');
+				$($frame.selector+'[data-id='+currentSlide+']').addClass('current');
 
 				// Control Buttons
 				updateControls();
 
 				// Disable Again
-				if(defaults.preventAdvance) {
+				if ( settings.preventAdvance ) {
 					disableSliding();
 				}
-
-				// Trigger event
-				parent.trigger('update');
 			}
 		}
 	},
 
 	updateControls = function() {
-		// Enable control buttons
-		if(currentSlide>0 && currentSlide<numSlides-1) {
-			$('.control', el).show();
-		} else if (currentSlide<=0) {
-			$('.control.prev').hide();
-			if(!defaults.preventAdvance || currentSlide==0) {
-				$('.control.next').show();
-			}
-		} else if (currentSlide>=numSlides-1) {
-			$('.control.next').hide();
-			$('.control.prev').show();
+		// Only run if controls exist
+		if ( $controls.length == 0 ) return;
+
+		if ( currentSlide >= 0 && currentSlide < numSlides ) {
+			$controls.show();
+			if ( currentSlide == 0 ) {
+				$prevCtrl.hide();
+			} else if ( currentSlide == numSlides-1 ) {
+				$nextCtrl.hide();
+			}   
+		} else {
+			$controls.hide();
 		}
 	},
 
@@ -235,14 +246,14 @@ var Swiper = function(selector, options) {
 		// Hide Controls
 		$('.control', el).hide();
 		// Add disabled flag
-		parent.addClass('disabled');
+		$parent.addClass('disabled');
 	},
 
 	enableSliding = function() {
 		// Enable control buttons
 		updateControls();
 		// Remove disabled flag
-		parent.removeClass('disabled');
+		$parent.removeClass('disabled');
 	};
 
 	// Initialize the object
@@ -250,9 +261,9 @@ var Swiper = function(selector, options) {
 
 	return {
 
-		element : parent,
+		element : $parent,
 
-		jumpToSlide : jumpToSlide,
+		jumpTo : jumpTo,
 
 		disableSliding : disableSliding,
 
@@ -265,11 +276,11 @@ var Swiper = function(selector, options) {
 		total : numSlides,
 
 		next : function() {
-			jumpToSlide(currentSlide+1);
+			jumpTo(currentSlide+1);
 		},
 
 		prev : function() {
-			jumpToSlide(currentSlide-1);  
+			jumpTo(currentSlide-1);  
 		}
 	};
 
