@@ -16,7 +16,8 @@ var Swiper = function(selector, options) {
 		animating = false,
 		numSlides = 0,
 		goTo = 0,
-		currentSlide = 0;
+		currentSlide = 0,
+		orientation = 0;
 
 	// Swiping
 	var swipe = {
