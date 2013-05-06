@@ -2,7 +2,7 @@
 
 **Requires jQuery/Zepto**
 
-Full page slider for touch enabled devices.  Currently supports WebKit devices only. 
+Full page slider for touch enabled devices.  Currently supports WebKit devices only.  [Check out the demo](http://dezignhero.github.io/swiper/).
 
 ## Introduction
 
@@ -17,7 +17,8 @@ swiper.js takes a slider or a full page and allows it to be touch enabled.  This
 
 ## Usage
 
-Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider container to have certain CSS properties.
+Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider container to have certain CSS properties.  You can also check out this [example](http://dezignhero.github.io/swiper/).
+
 
 **HTML**
 
