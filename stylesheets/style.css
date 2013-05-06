@@ -3,6 +3,7 @@ html, body { width: 100%; height: 100%; }
 body { background: #ccc url(../images/bg_wood.jpg) no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; font-family: 'Open Sans', Arial; overflow: hidden; }
 
 #logo { position: absolute; top: 0; left: 50%; width: 100px; margin: 0 0 0 -50px; z-index: 20; }
+	#logo img { width: 100px; }
 
 .wrapper { position: relative; width: 80%; height: 80%; margin: 6% auto 0; }
 
@@ -26,6 +27,9 @@ a#forkme_banner:hover { background-position: 0 -138px; }
 ------------------------------------------------------------*/
 @media only screen and (max-width: 800px) {
 	body { background: #ccc; }
+	#logo,
+	#logo img { width: 70px; }
+	#logo { margin-left: -35px; }
 	a#forkme_banner { display: none; }
 	.wrapper { margin-top: 30px; width: 90%; }
 	#Pages { border: 1px solid #aaa; }
