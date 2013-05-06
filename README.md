@@ -53,7 +53,7 @@ Below are the default values used in the settings of the framework which can be 
 	<script>
 		var s = new Swiper('#Pages', {
 			ease : 0.3,
-			sensitivity : 3,
+			swipeMin : 40,
 			preventAdvance : false,
 			container : '.container',
 			controls : '.control',
@@ -62,7 +62,7 @@ Below are the default values used in the settings of the framework which can be 
 	</script>
 
 * ease - This is the webkit transition property, and the time it takes for the slide to ease-out when you let go.  Default is 0.3s.
-* sensitivity - How far across the screen a user needs to swipe before slider.js considers it the next slide.  Default is 3.  A value of 3 means that you have to pass 1/3 of the page width to be considered a full swipe.
+* swipeMin - How many pixel differences between touchMove events for a gesture to be considered a "swipe".  A swipe will trigger the next slide.  Default is 40 (pixels).
 * preventAdvance - A function to disable and hide the prev/next controls. 
 * container - The element that contains all the slides.  Default markup expects '.container'.
 * controls - The selector used for jQuery/Zepto to grab and identify controls.  Default is '.control'.

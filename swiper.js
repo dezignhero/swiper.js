@@ -24,13 +24,14 @@ var Swiper = function(selector, options) {
 		started : false,
 		startX : 0,
 		endX : 0,
-		At : 0
+		at : 0,
+		strength : 0
 	};
 
 	// Settings
 	var settings = {
 		ease : 0.3,
-		sensitivity : 3,
+		swipeMin : 40,
 		preventAdvance : false,
 		container : '.container',
 		controls : '.control',
@@ -152,7 +153,7 @@ var Swiper = function(selector, options) {
 
 	touchStart = function(e) {
 		swipe.started = true;
-		swipe.At = getPosition();  // for touch move
+		swipe.at = getPosition();  // for touch move
 		// Get start point
 		swipe.startX = e.touches ? e.touches[0].pageX : e.pageX;
 		swipe.startY = e.touches ? e.touches[0].pageY : e.pageY;
@@ -168,12 +169,12 @@ var Swiper = function(selector, options) {
 		if ( animating ) return;
 		
 		var moved = swipe.endX - swipe.startX,
-			threshold = viewportWidth / settings.sensitivity;
+			threshold = viewportWidth / 3;
 
 		goTo = currentSlide;
 
 		// Figure out closest slide
-		if ( Math.abs(moved) > threshold ) {
+		if ( Math.abs(moved) > threshold || swipe.strength > settings.swipeMin ) {
 			if ( moved > 0 && currentSlide > 0 ) {
 				goTo--;
 			} else if ( moved < 0 && currentSlide < numSlides-1 ) {
@@ -192,15 +193,16 @@ var Swiper = function(selector, options) {
 				dX = touchX - swipe.startX,
 				dY = touchY - swipe.startY;
 
+			swipe.strength = Math.abs(touchX - swipe.endX);
 			swipe.endX = touchX;
 			
 			// Escape if motion wrong
-			if (Math.abs(dX) < Math.abs(dY)) return true;
+			if ( Math.abs(dX) < Math.abs(dY) ) return;
 
 			e.preventDefault();
 
 			// Always run this so that hit the ends
-			animate(swipe.At+dX, false);
+			animate(swipe.at+dX, false);
 		}
 	},
 
