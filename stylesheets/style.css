@@ -15,7 +15,7 @@ body { background: #ccc url(../images/bg_wood.jpg) top center; font-family: 'Ope
 
 /* Controls */
 .control { position: absolute; top: 50%; margin-top: -30px; padding: 10px; width: 60px; height: 60px; z-index: 100; cursor: pointer; line-height: 60px; font-weight: bold; border-radius: 60px; text-align: center;  -webkit-user-select: none; background: #5b7f97; color: #fff; }
-	.control.prev { left: -40px; }
+	.control.prev { left: -40px; display: none; }
 	.control.next { right: -40px; }
 
 a#forkme_banner {
