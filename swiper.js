@@ -33,7 +33,8 @@ var Swiper = function(selector, options) {
 		preventAdvance : false,
 		container : '.container',
 		controls : '.control',
-		page : '.page'
+		page : '.page',
+		clickEvent : 'click'
 	};
 
 	/*------- Initialization -------*/
@@ -71,12 +72,17 @@ var Swiper = function(selector, options) {
 
 		// Monitoring controls if they exist
 		if ( $controls.length > 0 ) {
+			// Determine whether or not to use click event
+			if ('ontouchstart' in document.documentElement) {
+				settings.clickEvent = 'touchstart';
+			}
+
 			// Create handlers
 			$prevCtrl = $(settings.controls+'[data-action=prev]');
 			$nextCtrl = $(settings.controls+'[data-action=next]');
 
 			// Bind behavior
-			$controls.on('touchstart, click', function(){
+			$controls.on(settings.clickEvent, function(){
 				var self = $(this),
 					action = self.attr('data-action');
 
