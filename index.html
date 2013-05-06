@@ -37,7 +37,13 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://raw.github.com/dezignhero/swiper/master/swiper.js"></script>
 <script>
+$(document).ready(function(){
+	// Scroll to the top on mobile devices
+	$('body').scrollTop(0);
+
+	// Instantiate swiper
 	var s = new Swiper('#Pages');
+});
 </script>
 </body>
 </html>
