@@ -29,14 +29,14 @@ a#forkme_banner:hover { background-position: 0 -138px; }
 	#Pages .page span { font-size: 36px; }
 }
 
-/*	Mobile Layout: <= 480px.
+/*	Mobile Layout: <= 500px.
 ------------------------------------------------------------*/
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 500px) {
 	body { background: #ccc; }
 	.wrapper { margin-top: 30px; }
 	#Pages { border-color: #9c9c9c; }
 		#Pages .page span { font-size: 24px; }
-	.control { padding: 5px; width: 50px; height: 50px; }
+	.control { padding: 5px; width: 50px; height: 50px; line-height: 50px; font-size: 11px; }
 	.control.prev { left: -20px; }
 	.control.next { right: -20px; }
 }
