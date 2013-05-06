@@ -22,18 +22,12 @@ a#forkme_banner { position: absolute; top: 0; left: 0; width: 138px; height: 138
 	text-indent: -9000px; z-index: 3; }
 a#forkme_banner:hover { background-position: 0 -138px; }
 
-/*	Mobile Layout: < 600px.
-------------------------------------------------------------*/
-@media only screen and (max-width: 599px) {
-	.wrapper { width: 90%; }
-	#Pages .page span { font-size: 36px; }
-}
-
-/*	Mobile Layout: <= 500px.
+/*	Mobile Layout: <= 800px.
 ------------------------------------------------------------*/
 @media only screen and (max-width: 800px) {
 	body { background: #ccc; }
-	.wrapper { margin-top: 30px; }
+	a#forkme_banner { display: none; }
+	.wrapper { margin-top: 30px; width: 90%; }
 	#Pages { border-color: #9c9c9c; }
 		#Pages .page span { font-size: 24px; }
 	.control { padding: 5px; width: 50px; height: 50px; line-height: 50px; font-size: 11px; }
