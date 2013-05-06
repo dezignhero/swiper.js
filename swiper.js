@@ -116,14 +116,23 @@ var Swiper = function(selector, options) {
 		$container[0].addEventListener('mousemove', function(e) { if (e.which==1) { touchMove(e); } }, false);
 		$container[0].addEventListener('mouseup', function(e) { touchEnd(e); }, false);
 
+		// Check if Android
+		var ua = navigator.userAgent.toLowerCase(),
+			isAndroid = ua.indexOf("android") > -1;
+
 		// Orientation Change
 		var supportsOrientationChange = "onorientationchange" in window,
-			orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+			orientationEvent = (supportsOrientationChange && !isAndroid) ? "orientationchange" : "resize";
 
+		// Listener for orientation changes
 		window.addEventListener(orientationEvent, function() {
-			resize(function(){
-				jumpTo(currentSlide);
-			});
+			// Prevent 'fake' orientation calls
+			if ( orientation != window.orientation ) {
+				orientation = window.orientation;
+				resize(true, function(){
+					jumpToSlide(currentSlide, true);
+				});
+			}
 		}, false);
 	},
 
