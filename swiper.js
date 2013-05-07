@@ -146,7 +146,7 @@ var Swiper = function(selector, options) {
 		$container.width(viewportWidth*numSlides);
 
 		// callback
-		if (typeof callback != 'undefined') {
+		if (typeof callback == 'function' ) {
 			callback();
 		}
 	},
@@ -240,8 +240,13 @@ var Swiper = function(selector, options) {
 			if ( num != currentSlide ) {
 				// Update current slide
 				currentSlide = num;
+
+				// Update current slide
 				$frame.removeClass('current');
 				$($frame.selector+'[data-id='+currentSlide+']').addClass('current');
+
+				// Update parent to trigger update event and new slide
+				$parent.trigger('update', [ currentSlide+1 ]);
 
 				// Control Buttons
 				updateControls();
