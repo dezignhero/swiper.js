@@ -246,7 +246,7 @@ var Swiper = function(selector, options) {
 				$($frame.selector+'[data-id='+currentSlide+']').addClass('current');
 
 				// Update parent to trigger update event and new slide
-				$parent.trigger('update', [ currentSlide+1 ]);
+				$parent.trigger('update', [ currentSlide+1, numSlides ]);
 
 				// Control Buttons
 				updateControls();
@@ -302,11 +302,12 @@ var Swiper = function(selector, options) {
 
 		enableSliding : enableSliding,
 
-		current : function() {
-			return currentSlide+1;
+		status : function() {
+			return {
+				'current' : currentSlide+1,
+				'total' : numSlides
+			}
 		},
-
-		total : numSlides,
 
 		next : function() {
 			jumpTo(currentSlide+1);
