@@ -57,7 +57,8 @@ Below are the default values used in the settings of the framework which can be 
 			preventAdvance : false,
 			container : '.container',
 			controls : '.control',
-			page : '.page'
+			page : '.page',
+			clickEvent : 'click'
 		});
 	</script>
 
@@ -67,3 +68,4 @@ Below are the default values used in the settings of the framework which can be 
 * container - The element that contains all the slides.  Default markup expects '.container'.
 * controls - The selector used for jQuery/Zepto to grab and identify controls.  Default is '.control'.
 * page : The selector used for jQuery/Zepto to grab and identify individual pages.  Default is '.page'.
+* clickEvent : The event used to trigger button presses on the controls.  Swiper.js will use 'touchstart' if it is available.  Otherwise default is 'click'.
