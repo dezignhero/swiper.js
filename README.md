@@ -56,8 +56,8 @@ Below are the default values used in the settings of the framework which can be 
 			swipeMin : 40,
 			preventAdvance : false,
 			container : '.container',
-			controls : '.control',
 			page : '.page',
+			controls : '.control',
 			clickEvent : 'click'
 		});
 	</script>

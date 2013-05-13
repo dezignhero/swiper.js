@@ -34,8 +34,8 @@ var Swiper = function(selector, options) {
 		swipeMin : 40,
 		preventAdvance : false,
 		container : '.container',
-		controls : '.control',
 		page : '.page',
+		controls : '.control',
 		clickEvent : 'click'
 	};
 
