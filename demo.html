@@ -41,8 +41,8 @@ $(document).ready(function(){
 	var s = new Swiper('#Pages');
 
 	// Demonstrate bound event for updating slides
-	s.element.on('update', function(e, slide){
-		console.log(slide);
+	s.element.on('update', function(e, current, total) {
+		console.log('Slide '+current+' of '+total);
 	});
 });
 </script>
