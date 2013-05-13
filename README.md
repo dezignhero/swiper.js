@@ -66,6 +66,6 @@ Below are the default values used in the settings of the framework which can be 
 * swipeMin - How many pixel differences between touchMove events for a gesture to be considered a "swipe".  A swipe will trigger the next slide.  Default is 40 (pixels).
 * preventAdvance - A function to disable and hide the prev/next controls. 
 * container - The element that contains all the slides.  Default markup expects '.container'.
-* controls - The selector used for jQuery/Zepto to grab and identify controls.  Default is '.control'.
 * page : The selector used for jQuery/Zepto to grab and identify individual pages.  Default is '.page'.
+* controls - The selector used for jQuery/Zepto to grab and identify controls.  Default is '.control'.
 * clickEvent : The event used to trigger button presses on the controls.  Swiper.js will use 'touchstart' if it is available.  Otherwise default is 'click'.
