@@ -131,8 +131,8 @@ var Swiper = function(selector, options) {
 			// Prevent 'fake' orientation calls
 			if ( orientation != window.orientation ) {
 				orientation = window.orientation;
-				resize(true, function(){
-					jumpToSlide(currentSlide, true);
+				resize(function(){
+					jumpTo(currentSlide);
 				});
 			}
 		}, false);
