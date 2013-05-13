@@ -57,6 +57,7 @@ var Swiper = function(selector, options) {
 		// Setup CSS
 		$container.css({
 			'-webkit-transition' : 'all '+settings.ease+'s ease-out',
+			'position' : 'absolute',
 			'left' : 0
 		});
 
@@ -207,18 +208,15 @@ var Swiper = function(selector, options) {
 	},
 
 	getPosition = function() {
-		// Get current point and Stay there
-		var style = document.defaultView.getComputedStyle($container[0], null),
-			transform = new WebKitCSSMatrix(style.webkitTransform);
-
 		// Return position based on direction
-		return transform.m41;
+		return parseInt($container.css('left'));
 	},
 	
 	animate = function(scrollTo, ease) {
 		// Momentum Effect or Not
-		$container[0].style.webkitTransition = ( ease ) ? 'all '+settings.ease+'s ease-out' : 'none';
-		$container[0].style.webkitTransform = 'translate3d('+scrollTo+'px,0,0)';
+		$container[0].style.webkitTransition = ( ease ) ? 'all '+settings.ease+'s ease-out' : '';
+		$container[0].style.position = 'absolute';
+		$container[0].style.left = scrollTo+'px';
 
 		// Allow animating again
 		if ( ease ) {
