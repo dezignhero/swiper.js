@@ -39,20 +39,22 @@ var Swiper = function(selector, options) {
 		clickEvent : 'click'
 	};
 
-	/*------- Initialization -------*/
+	/*------- Handles -------*/
 	
 	var el = selector,
 		$parent = $(el),
-		$container = $(settings.container, el),
-		$controls = $(settings.controls, el),
-		$frame = $(settings.page, el),
-		$prevCtrl, $nextCtrl;
+		$container, $controls, $frame, $prevCtrl, $nextCtrl;
 	
 	/*------- Methods -------*/
 
 	var init = function(options) {
-		// Update settings
+		// Merge settings
 		settings = $.extend(settings, options || {});
+
+		// Initialize handles
+		$container = $(settings.container, el);
+		$controls = $(settings.controls, el);
+		$frame = $(settings.page, el);
 
 		// Setup CSS
 		$container.css({
