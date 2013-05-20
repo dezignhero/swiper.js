@@ -114,7 +114,7 @@ var Swiper = function(selector, options) {
 		}
 
 		// Swiping
-		if ( !settings.buttonsOnly ) {
+		if ( !settings.controlsOnly ) {
 			$container[0].addEventListener('touchstart', function(e) { touchStart(e); }, false);
 			$container[0].addEventListener('touchmove', function(e) { touchMove(e); }, false);
 			$container[0].addEventListener('touchend', function(e) { touchEnd(e); }, false);
