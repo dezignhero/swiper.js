@@ -235,12 +235,13 @@ var Swiper = function(selector, options) {
 		}
 	},
 
-	jumpTo = function(num) {
+	jumpTo = function(num, ease) {
 		// Keep within range
 		if ( num >= 0 && num < numSlides ) {
 
 			// Animate
-			animate(-num*viewportWidth, true);
+			var hasEase = ( typeof ease !== 'undefined' ) ? ease : true;
+			animate(-num*viewportWidth, hasEase);
 
 			// If new slide
 			if ( num != currentSlide ) {
