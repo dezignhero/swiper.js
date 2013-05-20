@@ -37,8 +37,9 @@ html, body { width: 100%; height: 100%; background: #ccc; }
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="swiper.js"></script>
 <script>
+var s;
 $(document).ready(function(){
-	var s = new Swiper('#Pages');
+	s = new Swiper('#Pages');
 
 	// Demonstrate bound event for updating slides
 	s.element.on('update', function(e, current, total) {
