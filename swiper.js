@@ -36,7 +36,8 @@ var Swiper = function(selector, options) {
 		container : '.container',
 		page : '.page',
 		controls : '.control',
-		clickEvent : 'click'
+		clickEvent : 'click',
+		controlsOnly : false
 	};
 
 	/*------- Handles -------*/
@@ -106,20 +107,22 @@ var Swiper = function(selector, options) {
 		}
 
 		// Display controls correctly
-		if (settings.preventAdvance) {
+		if ( settings.preventAdvance ) {
 			disableSliding();
 		} else {
 			updateControls();
 		}
 
 		// Swiping
-		$container[0].addEventListener('touchstart', function(e) { touchStart(e); }, false);
-		$container[0].addEventListener('touchmove', function(e) { touchMove(e); }, false);
-		$container[0].addEventListener('touchend', function(e) { touchEnd(e); }, false);
-		// Desktop
-		$container[0].addEventListener('mousedown', function(e) { touchStart(e); }, false);
-		$container[0].addEventListener('mousemove', function(e) { if (e.which==1) { touchMove(e); } }, false);
-		$container[0].addEventListener('mouseup', function(e) { touchEnd(e); }, false);
+		if ( !settings.buttonsOnly ) {
+			$container[0].addEventListener('touchstart', function(e) { touchStart(e); }, false);
+			$container[0].addEventListener('touchmove', function(e) { touchMove(e); }, false);
+			$container[0].addEventListener('touchend', function(e) { touchEnd(e); }, false);
+			// Desktop
+			$container[0].addEventListener('mousedown', function(e) { touchStart(e); }, false);
+			$container[0].addEventListener('mousemove', function(e) { if (e.which==1) { touchMove(e); } }, false);
+			$container[0].addEventListener('mouseup', function(e) { touchEnd(e); }, false);
+		}
 
 		// Check if Android
 		var ua = navigator.userAgent.toLowerCase(),
