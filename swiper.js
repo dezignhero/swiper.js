@@ -57,6 +57,7 @@ var Swiper = function(selector, options) {
 		// Setup CSS
 		$container.css({
 			'-webkit-transition' : 'all '+settings.ease+'s ease-out',
+			'-webkit-transform' : 'translate3d(0,0,0)',  // Performance optimization, put onto own layer for faster start
 			'left' : 0
 		});
 
