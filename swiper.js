@@ -13,8 +13,10 @@ var Swiper = function(selector, options) {
 	/*------- Globals -------*/
 
 	var viewportWidth = 0,
+		frameWidth = 0,
 		animating = false,
 		numSlides = 0,
+		limitEnd = 0,
 		goTo = 0,
 		currentSlide = 0,
 		orientation = 0;
@@ -34,10 +36,11 @@ var Swiper = function(selector, options) {
 		swipeMin : 40,
 		preventAdvance : false,
 		container : '.container',
-		page : '.page',
+		frame : '.page',
+		frameWidth : false,  // accepts a number in pixels
 		controls : '.control',
 		clickEvent : 'click',
-		controlsOnly : false
+		controlsOnly : false,
 	};
 
 	/*------- Handles -------*/
@@ -55,14 +58,7 @@ var Swiper = function(selector, options) {
 		// Initialize handles
 		$container = $(settings.container, el);
 		$controls = $(settings.controls, el);
-		$frame = $(settings.page, el);
-
-		// Setup CSS
-		$container.css({
-			'-webkit-transition' : 'all '+settings.ease+'s ease-out',
-			'-webkit-transform' : 'translate3d(0,0,0)',  // Performance optimization, put onto own layer for faster start
-			'left' : 0
-		});
+		$frame = $(settings.frame, el);
 
 		// Assign Ids to frames
 		$frame.each(function(i){
@@ -70,11 +66,18 @@ var Swiper = function(selector, options) {
 			numSlides++;
 		});
 
+		// Add initial class
+		$($frame.selector+'[data-id=0]', el).addClass('current');
+
 		// Set Dimensions
 		resize();
 
-		// Add initial class
-		$($frame.selector+'[data-id=0]', el).addClass('current');
+		// Setup CSS
+		$container.css({
+			'-webkit-transition' : 'all '+settings.ease+'s ease-out',
+			'-webkit-transform' : 'translate3d(0,0,0)',  // Performance optimization, put onto own layer for faster start
+			'left' : 0
+		});
 
 		// Monitoring controls if they exist
 		if ( $controls.length > 0 ) {
@@ -146,13 +149,17 @@ var Swiper = function(selector, options) {
 
 	resize = function(callback){
 		viewportWidth = $parent.width();
+		frameWidth = ( settings.frameWidth ) ? settings.frameWidth : viewportWidth;
 
 		// Apply new sizes
-		$frame.width(viewportWidth);
-		$container.width(viewportWidth*numSlides);
+		$frame.width(frameWidth);
+		$container.width(frameWidth*numSlides);
+
+		// Set end limit
+		limitEnd = settings.frameWidth ? viewportWidth/frameWidth : numSlides;
 
 		// callback
-		if (typeof callback == 'function' ) {
+		if ( typeof callback == 'function' ) {
 			callback();
 		}
 	},
@@ -175,7 +182,7 @@ var Swiper = function(selector, options) {
 		if ( animating ) return;
 		
 		var moved = swipe.endX - swipe.startX,
-			threshold = viewportWidth / 3;
+			threshold = frameWidth / 3;
 
 		goTo = currentSlide;
 
@@ -183,7 +190,7 @@ var Swiper = function(selector, options) {
 		if ( Math.abs(moved) > threshold || swipe.strength > settings.swipeMin ) {
 			if ( moved > 0 && currentSlide > 0 ) {
 				goTo--;
-			} else if ( moved < 0 && currentSlide < numSlides-1 ) {
+			} else if ( moved < 0 && currentSlide < limitEnd-1 ) {
 				goTo++;
 			}
 		}
@@ -237,11 +244,11 @@ var Swiper = function(selector, options) {
 
 	jumpTo = function(num, ease) {
 		// Keep within range
-		if ( num >= 0 && num < numSlides ) {
+		if ( num >= 0 && num < limitEnd ) {
 
 			// Animate
 			var hasEase = ( typeof ease !== 'undefined' ) ? ease : true;
-			animate(-num*viewportWidth, hasEase);
+			animate(-num*frameWidth, hasEase);
 
 			// If new slide
 			if ( num != currentSlide ) {
@@ -253,7 +260,7 @@ var Swiper = function(selector, options) {
 				$($frame.selector+'[data-id='+currentSlide+']').addClass('current');
 
 				// Update parent to trigger update event and new slide
-				$parent.trigger('update', [ currentSlide, numSlides ]);
+				$parent.trigger('update', [ currentSlide, Math.floor(limitEnd) ]);
 
 				// Control Buttons
 				updateControls();
@@ -270,11 +277,11 @@ var Swiper = function(selector, options) {
 		// Only run if controls exist
 		if ( $controls.length == 0 ) return;
 
-		if ( currentSlide >= 0 && currentSlide < numSlides ) {
+		if ( currentSlide >= 0 && currentSlide < limitEnd ) {
 			$controls.show();
 			if ( currentSlide == 0 ) {
 				$prevCtrl.hide();
-			} else if ( currentSlide == numSlides-1 ) {
+			} else if ( currentSlide == limitEnd-1 ) {
 				$nextCtrl.hide();
 			}   
 		} else {
