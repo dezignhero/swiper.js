@@ -128,6 +128,16 @@ var Swiper = function(selector, options) {
 			$container[0].addEventListener('mouseup', function(e) { touchEnd(e); }, false);
 		}
 
+		// Prevent anchor tags from getting in the way
+		$('a', el).on('touchstart click', function(){
+			return swipe.started ? false : true;
+		});
+
+		// Prevent image dragging on getting in the way
+		$('img', el).on('dragstart', function(){
+			return false;
+		});
+
 		// Check if Android
 		var ua = navigator.userAgent.toLowerCase(),
 			isAndroid = ua.indexOf("android") > -1;
@@ -166,7 +176,6 @@ var Swiper = function(selector, options) {
 	},
 
 	touchStart = function(e) {
-		swipe.started = true;
 		swipe.at = getPosition();  // for touch move
 		// Get start point
 		swipe.startX = e.touches ? e.touches[0].pageX : e.pageX;
@@ -201,7 +210,8 @@ var Swiper = function(selector, options) {
 	},
 	
 	touchMove = function(e) {
-		if ( swipe.started && !$parent.hasClass('disabled') ) {
+		if ( !$parent.hasClass('disabled') ) {
+			swipe.started = true;
 			var touchX = e.touches ? e.touches[0].pageX : e.pageX,
 				touchY = e.touches ? e.touches[0].pageY : e.pageY,
 				dX = touchX - swipe.startX,
