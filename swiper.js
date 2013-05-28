@@ -40,6 +40,7 @@ var Swiper = function(selector, options) {
 		frameWidth : false,  // accepts a number in pixels
 		controls : '.control',
 		clickEvent : 'click',
+		updateEvent : 'update',
 		controlsOnly : false,
 	};
 
@@ -260,7 +261,7 @@ var Swiper = function(selector, options) {
 				$($frame.selector+'[data-id='+currentSlide+']').addClass('current');
 
 				// Update parent to trigger update event and new slide
-				$parent.trigger('update', [ currentSlide, Math.floor(limitEnd) ]);
+				$parent.trigger(settings.updateEvent, [ currentSlide, Math.floor(limitEnd) ]);
 
 				// Control Buttons
 				updateControls();
