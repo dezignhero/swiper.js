@@ -200,7 +200,7 @@ var Swiper = function(selector, options) {
 	},
 	
 	touchMove = function(e) {
-		if (swipe.started && !$parent.hasClass('disabled')) {
+		if ( swipe.started && !$parent.hasClass('disabled') ) {
 			var touchX = e.touches ? e.touches[0].pageX : e.pageX,
 				touchY = e.touches ? e.touches[0].pageY : e.pageY,
 				dX = touchX - swipe.startX,
