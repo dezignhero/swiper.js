@@ -53,6 +53,9 @@ var Swiper = function(selector, options) {
 	/*------- Methods -------*/
 
 	var init = function(options) {
+		// Exit if element doesn't exist
+		if ( $(el).length == 0 ) return;
+
 		// Merge settings
 		settings = $.extend(settings, options || {});
 
@@ -322,6 +325,10 @@ var Swiper = function(selector, options) {
 		element : $parent,
 
 		jumpTo : jumpTo,
+
+		swiping : function() {
+			return swipe.started;
+		},
 
 		disableSliding : disableSliding,
 
