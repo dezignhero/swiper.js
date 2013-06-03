@@ -25,7 +25,7 @@ a#forkme_banner:hover { background-position: 0 -138px; }
 
 /*	Mobile Layout: <= 800px.
 ------------------------------------------------------------*/
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 767px) {
 	body { background: #ccc; }
 	#logo,
 	#logo img { width: 70px; }
