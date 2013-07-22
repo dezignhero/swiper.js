@@ -146,6 +146,7 @@ var Swiper = function(selector, options) {
 			isAndroid = ua.indexOf("android") > -1;
 
 		// Orientation Change
+		orientation = window.orientation;
 		var supportsOrientationChange = "onorientationchange" in window,
 			orientationEvent = (supportsOrientationChange && !isAndroid) ? "orientationchange" : "resize";
 
