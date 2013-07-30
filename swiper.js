@@ -70,6 +70,8 @@ var Swiper = function(selector, options) {
 			numSlides++;
 		});
 
+		limitEnd = numSlides;
+
 		// Add initial class
 		$($frame.selector+'[data-id=0]', el).addClass('current');
 
@@ -146,11 +148,11 @@ var Swiper = function(selector, options) {
 			isAndroid = ua.indexOf("android") > -1;
 
 		// Orientation Change
-		orientation = window.orientation;
 		var supportsOrientationChange = "onorientationchange" in window,
 			orientationEvent = (supportsOrientationChange && !isAndroid) ? "orientationchange" : "resize";
 
 		// Listener for orientation changes
+		orientation = window.orientation;
 		window.addEventListener(orientationEvent, function() {
 			// Prevent 'fake' orientation calls
 			if ( orientation != window.orientation ) {
@@ -169,9 +171,6 @@ var Swiper = function(selector, options) {
 		// Apply new sizes
 		$frame.width(frameWidth);
 		$container.width(frameWidth*numSlides);
-
-		// Set end limit
-		limitEnd = settings.frameWidth ? viewportWidth/frameWidth : numSlides;
 
 		// callback
 		if ( typeof callback == 'function' ) {
@@ -275,7 +274,7 @@ var Swiper = function(selector, options) {
 				$($frame.selector+'[data-id='+currentSlide+']').addClass('current');
 
 				// Update parent to trigger update event and new slide
-				$parent.trigger(settings.updateEvent, [ currentSlide, Math.floor(limitEnd) ]);
+				$parent.trigger(settings.updateEvent, [ currentSlide, limitEnd ]);
 
 				// Control Buttons
 				updateControls();
