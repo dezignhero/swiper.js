@@ -2,7 +2,7 @@
 
 **Requires jQuery/Zepto**
 
-Full page slider for touch enabled devices.  Currently supports WebKit devices only.  [Check out the demo](http://dezignhero.github.io/swiper/).
+Full page slider for touch enabled devices.  Currently supports WebKit devices only.  [Check out the demo](http://dezignhero.github.io/swiper.js/).
 
 ## Introduction
 
