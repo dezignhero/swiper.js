@@ -17,7 +17,7 @@ swiper.js takes a slider or a full page and allows it to be touch enabled.  This
 
 ## Usage
 
-Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider container to have certain CSS properties.  You can also check out this [example](http://dh-javascript.github.io/swiper.js/).
+Make sure you are using either jQuery or Zepto.  Swiper.js expects your slider container to have certain CSS properties.  You can also check out this [example](http://dezignhero.github.io/swiper.js/).
 
 
 **HTML**
